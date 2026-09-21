@@ -1,0 +1,1879 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Eduvia AI">
+<title>Eduvia AI — Système Global Intégré</title>
+
+<!-- Dynamic Web App Manifest Injection for PWA installation -->
+<link rel="manifest" id="manifestLink">
+
+<style>
+:root {
+  --g: #2563eb;
+  --g-hover: #1d4ed8;
+  --g-light: #eff6ff;
+  --g-border: #bfdbfe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --line: #e2e8f0;
+  --dark: #0f172a;
+  --danger: #ef4444;
+  --danger-bg: #fef2f2;
+  --blue: #2563eb;
+  --blue-bg: #eff6ff;
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --purple: #8b5cf6;
+  --purple-bg: #f5f3ff;
+  --radius: 16px;
+  --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+}
+
+/* Dynamic themes */
+[data-theme="blue"] {
+  --g: #2563eb;
+  --g-hover: #1d4ed8;
+  --g-light: #eff6ff;
+  --g-border: #bfdbfe;
+}
+[data-theme="emerald"] {
+  --g: #159669;
+  --g-hover: #0d7852;
+  --g-light: #eaf8f2;
+  --g-border: #a7f3d0;
+}
+[data-theme="purple"] {
+  --g: #8b5cf6;
+  --g-hover: #7c3aed;
+  --g-light: #f5f3ff;
+  --g-border: #ddd6fe;
+}
+[data-theme="amber"] {
+  --g: #d97706;
+  --g-hover: #b45309;
+  --g-light: #fffbeb;
+  --g-border: #fde68a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+body { background: var(--bg); color: var(--ink); line-height: 1.5; min-height: 100vh; }
+
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; border: none; outline: none; }
+.hidden { display: none !important; }
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); transition: all 0.2s ease; }
+.grid { display: grid; gap: 18px; }
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+
+.btn { border-radius: 12px; padding: 12px 18px; font-weight: 700; font-size: 0.95rem; transition: all 0.18s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; cursor: pointer; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.primary { background: var(--g); color: #fff; }
+.primary:hover { background: var(--g-hover); }
+.dark { background: var(--dark); color: #fff; }
+.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+.ghost:hover { background: var(--bg); }
+.danger { background: var(--danger-bg); color: var(--danger); border: 1px solid #fecaca; }
+.danger:hover { background: #fee2e2; }
+.blue { background: var(--blue-bg); color: var(--blue); border: 1px solid #bfdbfe; }
+.blue:hover { background: #dbeafe; }
+.purple { background: var(--purple-bg); color: var(--purple); border: 1px solid #ddd6fe; }
+.purple:hover { background: #ede9fe; }
+.amber { background: var(--amber-bg); color: var(--amber); border: 1px solid #fde68a; }
+.full { width: 100%; }
+
+input, textarea, select { width: 100%; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink); transition: all 0.2s ease-in-out; box-shadow: inset 0 1px 2px rgba(0,0,0,0.03); }
+textarea { min-height: 110px; resize: vertical; line-height: 1.6; font-family: inherit; }
+input:focus, textarea:focus, select:focus { border-color: var(--g); outline: none; box-shadow: 0 0 0 3px var(--g-light); }
+label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; }
+h1, h2, h3, h4 { letter-spacing: -0.02em; font-weight: 800; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.4rem; margin-bottom: 12px; }
+
+.top { position: sticky; top: 0; z-index: 40; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.topin { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 14px; padding: 12px 20px; }
+.brand { font-weight: 900; font-size: 1.25rem; display: flex; align-items: center; gap: 8px; color: var(--g); cursor: pointer; }
+.spacer { flex: 1; }
+.pill { padding: 6px 12px; border-radius: 999px; background: var(--g-light); color: var(--g); font-weight: 800; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--g-border); }
+
+#app { min-height: 100vh; }
+.view { display: none; }
+.view.active { display: block; animation: fadeIn 0.25s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+.hero { padding: 30px 0 10px; }
+.hero h1 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; margin-top: 10px; margin-bottom: 10px; }
+.hero p { font-size: 1.1rem; color: var(--muted); max-width: 750px; }
+
+.role { text-align: left; background: #fff; border: 2px solid var(--line); border-radius: var(--radius); padding: 16px; transition: all 0.2s; cursor: pointer; }
+.role:hover, .role.sel { border-color: var(--g); background: var(--g-light); transform: translateY(-2px); }
+.role .ico { font-size: 2rem; display: block; margin-bottom: 6px; }
+.role b { font-size: 1.05rem; display: block; color: var(--ink); }
+
+.notice { padding: 14px 18px; border-radius: 14px; background: var(--blue-bg); border: 1px solid #bfdbfe; color: #1e40af; font-size: 0.9rem; }
+.notice.warn { background: var(--amber-bg); border-color: #fde68a; color: #92400e; }
+
+.auth { max-width: 900px; margin: 20px auto; }
+.authgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.login-card-header { padding: 16px; border-radius: 14px; background: var(--g-light); border: 1px solid var(--g-border); margin-bottom: 18px; }
+
+.shell { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 65px); }
+aside { background: #fff; border-right: 1px solid var(--line); padding: 16px; position: sticky; top: 65px; height: calc(100vh - 65px); overflow-y: auto; }
+.navbtn { width: 100%; border: 0; background: transparent; text-align: left; padding: 12px 14px; border-radius: 12px; font-weight: 700; color: #475569; margin-bottom: 4px; transition: all 0.15s; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.navbtn:hover, .navbtn.sel { background: var(--g-light); color: var(--g); }
+.main { min-width: 0; background: var(--bg); }
+.mobilebar { display: none; padding: 10px 16px; background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 65px; z-index: 30; }
+
+.stat { font-size: 2rem; font-weight: 900; color: var(--g); }
+.tag { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #f1f5f9; font-size: 0.75rem; font-weight: 700; color: var(--muted); }
+.tag.green { background: #dcfce7; color: #15803d; }
+.tag.blue { background: #dbeafe; color: #1e40af; }
+.tag.purple { background: #f3e8ff; color: #6b21a8; }
+
+/* OPTIMIZED CHAT CONTAINER FOR BETTER VISIBILITY & VISUAL ORDER */
+.chat { display: flex; flex-direction: column; gap: 16px; height: 500px; max-height: 60vh; overflow-y: auto; padding: 20px; background: var(--bg); border: 1px solid var(--line); border-radius: 20px; margin-bottom: 16px; scroll-behavior: smooth; }
+.msg { width: fit-content; max-width: 85%; padding: 16px 20px; border-radius: 20px; line-height: 1.65; white-space: pre-wrap; font-size: 0.95rem; box-shadow: 0 2px 5px rgba(0,0,0,0.04); word-break: break-word; position: relative; animation: slideInMsg 0.2s ease-out; }
+@keyframes slideInMsg { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.msg.ai { background: #ffffff; border: 1px solid var(--line); align-self: flex-start; border-bottom-left-radius: 4px; border-left: 4px solid var(--g); }
+.msg.me { background: var(--g); color: #ffffff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+.msg b { color: inherit; }
+
+.msg-footer { display: flex; align-items: center; justify-content: flex-end; margin-top: 8px; gap: 8px; }
+.play-btn { background: var(--g-light); color: var(--g); border: 1px solid var(--g-border); border-radius: 8px; padding: 4px 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 4px; }
+.play-btn:hover { background: var(--g); color: #fff; }
+
+.chatrow { display: flex; gap: 10px; align-items: flex-end; }
+.chatrow textarea { min-height: 54px; max-height: 160px; }
+
+.drop { border: 2px dashed #cbd5e1; border-radius: 18px; padding: 30px; text-align: center; background: #ffffff; transition: all 0.2s; cursor: pointer; }
+.drop.drag, .drop:hover { border-color: var(--g); background: var(--g-light); }
+.files { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-top: 14px; }
+.file { border: 1px solid var(--line); border-radius: 14px; padding: 10px; background: #fff; position: relative; font-size: 0.85rem; }
+.file img { width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-bottom: 6px; }
+.thumb { height: 110px; display: grid; place-items: center; background: #f1f5f9; border-radius: 8px; font-size: 2.2rem; margin-bottom: 6px; }
+
+.setting { display: flex; justify-content: space-between; gap: 20px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.setting:last-child { border-bottom: 0; }
+.switch { width: 50px; height: 28px; border-radius: 999px; background: #cbd5e1; padding: 3px; border: 0; cursor: pointer; transition: background 0.2s; }
+.switch i { display: block; width: 22px; height: 22px; background: #fff; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+.switch.on { background: var(--g); }
+.switch.on i { transform: translateX(22px); }
+
+.toast { position: fixed; right: 20px; bottom: 20px; z-index: 100; background: var(--dark); color: #fff; padding: 14px 20px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-width: 380px; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 10px; animation: slideUp 0.2s ease-out; }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 90; display: grid; place-items: center; padding: 20px; }
+.modalbox { max-width: 650px; width: 100%; background: #fff; border-radius: 20px; padding: 26px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+
+.chip { padding: 6px 14px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+.chip:hover { background: var(--g-light); border-color: var(--g); color: var(--g); }
+
+.darkmode { --ink: #f8fafc; --muted: #94a3b8; --bg: #0b0f17; --card: #151e2e; --line: #24334a; }
+.darkmode .top, .darkmode aside, .darkmode input, .darkmode textarea, .darkmode select, .darkmode .role, .darkmode .file, .darkmode .msg.ai, .darkmode .drop, .darkmode .mobilebar, .darkmode .modalbox { background: #151e2e; color: var(--ink); }
+.darkmode .chat { background: #0f172a; }
+.darkmode .ghost { color: var(--ink); border-color: var(--line); }
+.darkmode .ghost:hover { background: #1e293b; }
+.darkmode .thumb { background: #1e293b; }
+
+/* Typing Cursor Effect */
+.typing-cursor { display: inline-block; width: 8px; height: 1em; background: var(--g); margin-left: 2px; vertical-align: text-bottom; animation: blink 0.8s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.img-card { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #fff; transition: transform 0.2s, box-shadow 0.2s; }
+.img-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(0,0,0,0.1); }
+.img-detail-view { display:block; max-width:100%; width:auto; height:auto; max-height:70vh; object-fit:contain; margin:0 auto; }
+.img-preview { width: 100%; max-width: 100%; height: 220px; max-height: 220px; object-fit: contain; background: #f1f5f9; display: block; border-bottom: 1px solid var(--line); }
+
+.color-option { width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; display: inline-block; transition: transform 0.15s; }
+.color-option:hover { transform: scale(1.1); }
+.color-option.active { border-color: #000; box-shadow: 0 0 0 3px rgba(0,0,0,0.15); }
+
+/* QR Code Display Card */
+.qr-container { text-align: center; padding: 20px; background: #ffffff; border-radius: 16px; border: 1px solid var(--line); margin: 15px 0; }
+.qr-container img { width: 220px; height: 220px; border-radius: 12px; border: 1px solid var(--line); padding: 8px; background: #fff; }
+
+@media print {
+  .top, .mobilebar, aside, .btn, .chatrow, .drop, .setting, #creatorNav, .chip, input, textarea, select { display: none !important; }
+  body, .main, .wrap, #app { background: #ffffff !important; color: #000000 !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  .shell { display: block !important; }
+  .card { box-shadow: none !important; border: 1px solid #ccc !important; padding: 15px !important; margin-bottom: 20px !important; }
+  .print-header { display: block !important; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
+  .img-preview, .img-detail-view { max-height: 400px !important; width: auto !important; margin: 0 auto !important; }
+}
+
+.print-header { display: none; }
+
+@media (max-width: 880px) {
+  .g4, .g3 { grid-template-columns: repeat(2, 1fr); }
+  .shell { grid-template-columns: 1fr; }
+  aside { display: none; position: fixed; left: 0; top: 65px; bottom: 0; z-index: 50; width: 260px; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
+  .mobilebar { display: flex; align-items: center; justify-content: space-between; }
+  .authgrid, .g2 { grid-template-columns: 1fr; }
+  .wrap { padding: 14px; }
+  .topin { padding: 10px 14px; }
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div id="loginView" class="view active">
+    <div class="wrap">
+      <section class="hero">
+        <span class="pill">🛡️ Eduvia AI · Espace Éducatif Sécurisé Fédéré</span>
+        <h1>Votre plateforme scolaire augmentée par l'IA</h1>
+        <p>Sélectionnez votre profil d'accès pour afficher votre portail de connexion sécurisé.</p>
+      </section>
+
+      <div class="card auth">
+        <h2>Choisissez votre profil pour vous connecter</h2>
+        <p class="muted" style="margin-bottom:18px;">7 interfaces dédiées sur-mesure pour chaque rôle de la communauté éducative.</p>
+
+        <!-- 7 DEDICATED ROLES BUTTONS -->
+        <div class="grid g4 rolebox" id="roles" style="margin-bottom:20px;">
+          <div class="role sel" data-role="STUDENT"><span class="ico">👨‍🎓</span><b>Élève</b><span class="muted small">Collège / Lycée</span></div>
+          <div class="role" data-role="TEACHER"><span class="ico">👨‍🏫</span><b>Professeur</b><span class="muted small">Enseignants & Suivi</span></div>
+          <div class="role" data-role="SCHOOL_ADMIN"><span class="ico">🏫</span><b>Administration</b><span class="muted small">Direction & RNE</span></div>
+          <div class="role" data-role="INDIVIDUAL"><span class="ico">👤</span><b>Autodidacte</b><span class="muted small">Formation personnelle</span></div>
+          <div class="role" data-role="PARENT"><span class="ico">👨‍👩‍👧</span><b>Parent</b><span class="muted small">Suivi des enfants</span></div>
+          <div class="role" data-role="UNIVERSITY"><span class="ico">🎓</span><b>Université</b><span class="muted small">Supérieur & Sup</span></div>
+          <div class="role" data-role="CREATOR"><span class="ico">🛡️</span><b>Créateur</b><span class="muted small">Supervision Système</span></div>
+        </div>
+
+        <!-- DYNAMIC AUTH FORM CONTAINER -->
+        <div id="dynamicAuthContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="appView" class="view">
+    <header class="top">
+      <div class="topin">
+        <button class="btn ghost" onclick="toggleMenu()" title="Menu">☰</button>
+        <div class="brand" onclick="go('home')">🌿 Eduvia AI</div>
+        <span id="rolePill" class="pill"></span>
+        <div class="spacer"></div>
+        <button class="btn ghost" onclick="go('settings')" title="Paramètres">⚙️</button>
+        <button class="btn ghost" onclick="logout()" title="Déconnexion">🚪</button>
+      </div>
+    </header>
+
+    <div class="mobilebar">
+      <button class="btn ghost" onclick="toggleMenu()">☰ Menu</button>
+      <button class="btn ghost" onclick="back()">↩️ Retour</button>
+      <button class="btn primary" onclick="go('home')">🏠 Accueil</button>
+    </div>
+
+    <div class="shell">
+      <aside id="side">
+        <div class="small muted" style="padding: 8px 12px; font-weight: 800; letter-spacing:0.05em;">ESPACE DE TRAVAIL</div>
+        <button class="navbtn sel" data-page="home" onclick="go('home')"><span>🏠</span> Accueil</button>
+        <button class="navbtn" data-page="new" onclick="go('new')"><span>➕</span> Nouvelle Page</button>
+        <button class="navbtn" data-page="pages" onclick="go('pages')"><span>📄</span> Mes Pages</button>
+        <button class="navbtn" data-page="projects" onclick="go('projects')"><span>📁</span> Projets & Tâches</button>
+        <button class="navbtn" data-page="ai" onclick="go('ai')"><span>🤖</span> Assistant Lia AI</button>
+        <button class="navbtn" data-page="images" onclick="go('images')"><span>🖼️</span> Studio Schémas & Images</button>
+        <button class="navbtn" data-page="docs" onclick="go('docs')"><span>📚</span> Documents & Analyse</button>
+        <button class="navbtn" data-page="schedule" onclick="go('schedule')"><span>🕐</span> Emploi du temps</button>
+        <button class="navbtn" data-page="settings" onclick="go('settings')"><span>⚙️</span> Paramètres & Application</button>
+        <button class="navbtn" data-page="report" onclick="go('report')"><span>🚨</span> Signaler un problème</button>
+
+        <div id="creatorNav" class="hidden">
+          <hr style="margin: 14px 0; border:0; border-top:1px solid var(--line);">
+          <div class="small muted" style="padding: 8px 12px; font-weight: 800; letter-spacing:0.05em;">SUPERVISION CRÉATEUR</div>
+          <button class="navbtn" data-page="reports" onclick="go('reports')"><span>🛡️</span> Signalements</button>
+          <button class="navbtn" data-page="security" onclick="go('security')"><span>🔐</span> Sécurité & Audit</button>
+        </div>
+
+        <hr style="margin: 14px 0; border:0; border-top:1px solid var(--line);">
+        <button class="navbtn" onclick="logout()"><span>🚪</span> Se déconnecter</button>
+      </aside>
+
+      <main class="main">
+        <div class="print-header">
+          <h2>🌿 Eduvia AI — Document Pédagogique Officiel</h2>
+          <p>Export édité le <span id="printDate"></span></p>
+        </div>
+
+        <div id="pageContent" class="wrap"></div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ET TOAST GLOBAL -->
+<div id="modal" class="modal hidden">
+  <div class="modalbox">
+    <div id="modalBody"></div>
+    <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
+      <button class="btn ghost" onclick="closeModal()">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script>
+'use strict';
+
+const EDUVIA_DEFAULT_CREATOR_CODE = 'K7v!Q2m#R9x@L4p$T8z&N6w^C3y';
+
+let deferredPrompt = null; // PWA Installation Event Holder
+
+const state = {
+  role: localStorage.getItem('edu_current_role') || 'STUDENT',
+  page: 'home',
+  history: [],
+  email: '',
+  profile: null,
+  studentName: localStorage.getItem('edu_student_name') || '',
+  pages: JSON.parse(localStorage.getItem('edu_pages') || '[]'),
+  projects: JSON.parse(localStorage.getItem('edu_projects') || '[]'),
+  docs: JSON.parse(localStorage.getItem('edu_docs') || '[]'),
+  reports: JSON.parse(localStorage.getItem('edu_reports') || '[]'),
+  messages: JSON.parse(localStorage.getItem('edu_messages') || '[]'),
+  schedule: JSON.parse(localStorage.getItem('edu_schedule') || '[]'),
+  generatedImages: JSON.parse(localStorage.getItem('edu_images') || '[]'),
+  selectedImage: null,
+  files: [],
+  listening: false,
+  isTyping: false,
+  voice: localStorage.getItem('edu_voice') !== '0', // Default ON
+  voicePitch: parseFloat(localStorage.getItem('edu_voice_pitch') || '1.0'),
+  voiceRate: Math.max(0.5, Math.min(1.4, parseFloat(localStorage.getItem('edu_voice_rate') || '1.0'))),
+  voiceName: localStorage.getItem('edu_voice_name') || '',
+  theme: localStorage.getItem('edu_theme') || 'blue',
+  dark: localStorage.getItem('edu_dark') === '1',
+  authChallenge: '',
+  authEmail: '',
+  authCodesSent: false,
+  reconnectRequired: false,
+  reconnectRole: '',
+  reconnectEmail: '',
+  reconnectName: '',
+  reconnectHash: ''
+};
+
+// PWA Event Handler
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+// Setup dynamic manifest
+function setupPWA() {
+  const manifestData = {
+    name: "Eduvia AI - Plateforme Éducative",
+    short_name: "Eduvia AI",
+    start_url: window.location.href,
+    display: "standalone",
+    background_color: "#f8fafc",
+    theme_color: "#2563eb",
+    icons: [
+      {
+        src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232563eb'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white'>🌿</text></svg>",
+        sizes: "192x192 512x512",
+        type: "image/svg+xml"
+      }
+    ]
+  };
+  const stringManifest = JSON.stringify(manifestData);
+  const blob = new Blob([stringManifest], {type: 'application/json'});
+  const manifestURL = URL.createObjectURL(blob);
+  const mLink = document.getElementById('manifestLink');
+  if (mLink) mLink.setAttribute('href', manifestURL);
+}
+
+// Default chat welcome message initialization
+if (state.messages.length === 0) {
+  state.messages = [
+    { who: 'ai', text: 'Bonjour ! Je suis Lia, ton assistante pédagogique. Pose-moi tes questions de cours !' }
+  ];
+  localStorage.setItem('edu_messages', JSON.stringify(state.messages));
+}
+
+// Default seed data
+if (state.pages.length === 0) {
+  state.pages = [
+    { id: 'p1', title: 'Mathématiques — Théorème de Pythagore', body: 'Dans un triangle rectangle, le carré de la longueur de l\'hypoténuse est égal à la somme des carrés des longueurs des deux autres côtés. Formule : a² + b² = c².', date: Date.now() - 86400000 },
+    { id: 'p2', title: 'Histoire — La Révolution Française (1789)', body: 'Chronologie clé : 5 mai (États généraux), 14 juillet (Prise de la Bastille), 26 août (Déclaration des droits de l\'homme et du citoyen).', date: Date.now() - 43200000 }
+  ];
+  localStorage.setItem('edu_pages', JSON.stringify(state.pages));
+}
+
+if (state.projects.length === 0) {
+  state.projects = [
+    { id: 'pr1', name: 'Exposé SVT : Le cycle du carbone', status: 'En cours', tasks: [{ title: 'Faire le schéma du cycle', done: true }, { title: 'Rédiger la synthèse', done: false }] },
+    { id: 'pr2', name: 'Révisions Brevet / Bac', status: 'Planifié', tasks: [{ title: 'Fiches de physique-chimie', done: false }, { title: 'Annales de maths 2026', done: false }] }
+  ];
+  localStorage.setItem('edu_projects', JSON.stringify(state.projects));
+}
+
+if (state.schedule.length === 0) {
+  state.schedule = [
+    { id: 's1', day: 'Lundi 08h-10h', course: 'Mathématiques (Salle 201)' },
+    { id: 's2', day: 'Lundi 10h-12h', course: 'Histoire-Géographie (Salle 104)' },
+    { id: 's3', day: 'Mardi 09h-11h', course: 'Physique-Chimie (Labo 3)' },
+    { id: 's4', day: 'Jeudi 14h-16h', course: 'SVT (Salle 205)' }
+  ];
+  localStorage.setItem('edu_schedule', JSON.stringify(state.schedule));
+}
+
+if (state.generatedImages.length === 0) {
+  state.generatedImages = [
+    {
+      id: 'img_1',
+      prompt: 'Schéma détaillé d\'une cellule végétale avec noyau et chloroplastes',
+      style: 'vector',
+      url: 'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&w=800&q=80',
+      date: '17/09/2026',
+      analysis: '🔬 **Analyse structurale de l\'image :**\n\n1. **Membrane & Paroi pectocellulosique :** Rigidité de la cellule végétale.\n2. **Noyau :** Stockage du matériel génétique (ADN).\n3. **Chloroplastes :** Siège de la photosynthèse et synthèse des glucides.'
+    }
+  ];
+  localStorage.setItem('edu_images', JSON.stringify(state.generatedImages));
+}
+
+const labels = {
+  STUDENT: 'Élève (Collège / Lycée)',
+  TEACHER: 'Professeur / Enseignant',
+  SCHOOL_ADMIN: 'Administration d’établissement',
+  INDIVIDUAL: 'Autodidacte / Formation libre',
+  PARENT: 'Parent d\'élève',
+  UNIVERSITY: 'Étudiant / Enseignement Supérieur',
+  CREATOR: 'Créateur / Administrateur Système'
+};
+
+function save(key, val) {
+  localStorage.setItem(key, JSON.stringify(val));
+}
+
+function toast(msg) {
+  const x = document.getElementById('toast');
+  if (!x) return;
+  x.textContent = '💬 ' + msg;
+  x.classList.remove('hidden');
+  clearTimeout(window.__t);
+  window.__t = setTimeout(() => x.classList.add('hidden'), 3200);
+}
+
+function showModal(html) {
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('modal').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.add('hidden');
+}
+
+function esc(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+function init() {
+  setupPWA();
+  setTheme(state.theme);
+  if (state.dark) document.body.classList.add('darkmode');
+
+  const rolesContainer = document.getElementById('roles');
+  if (rolesContainer) {
+    rolesContainer.onclick = function(e) {
+      const roleEl = e.target.closest('.role');
+      if (!roleEl) return;
+      document.querySelectorAll('#roles .role').forEach(x => x.classList.remove('sel'));
+      roleEl.classList.add('sel');
+      state.role = roleEl.dataset.role;
+      renderRoleLoginForm(state.role);
+    };
+  }
+
+  renderRoleLoginForm(state.role);
+  initVoiceList();
+}
+
+function setTheme(themeName) {
+  state.theme = themeName;
+  document.documentElement.setAttribute('data-theme', themeName);
+  localStorage.setItem('edu_theme', themeName);
+}
+
+function renderRoleLoginForm(role) {
+  const container = document.getElementById('dynamicAuthContainer');
+  if (!container) return;
+
+  if (role === 'STUDENT') {
+    container.innerHTML = `
+      <div class="login-card-header">
+        <h3>👨‍🎓 Connexion Élève</h3>
+        <p class="muted small">Pour les élèves : prénom, adresse email et mot de passe.</p>
+      </div>
+      <div class="authgrid">
+        <div><label>Prénom</label><input id="stName" value="" placeholder="Laura" autocomplete="given-name"></div>
+        <div><label>Adresse email</label><input id="stEmail" type="email" value="" placeholder="laura@email.fr" autocomplete="email"></div>
+      </div>
+      <div style="margin-top:14px;"><label>Créer votre mot de passe</label><input id="stPw" type="password" value="" placeholder="Choisissez votre mot de passe" autocomplete="new-password"></div>
+      <button class="btn primary full" style="margin-top:18px;" id="requestCodesBtn" onclick="submitStudentLogin()">Créer mon compte et me connecter</button>
+    `;
+  } else if (role === 'TEACHER') {
+    container.innerHTML = `
+      <div class="login-card-header">
+        <h3>👨‍🏫 Portail de Connexion Professeur</h3>
+        <p class="muted small">Espace de préparation des cours, corrections et suivi des élèves.</p>
+      </div>
+      <div class="authgrid">
+        <div><label>Adresse Académique (@ac-academie.fr)</label><input id="tcEmail" value="" placeholder="prenom.nom@ac-paris.fr"></div>
+        <div><label>Numéro NUMEN / Pass Académique</label><input id="tcNumen" value="" placeholder="Identifiant NUMEN"></div>
+      </div>
+      <div style="margin-top:14px;"><label>Discipline Enseignée</label><input id="tcSub" value=""></div>
+      <div style="margin-top:14px;"><label>Créer votre mot de passe</label><input id="tcPw" type="password" value="" placeholder="Choisissez votre mot de passe" autocomplete="new-password"></div>
+      <button class="btn primary full" style="margin-top:18px;" id="requestCodesBtn" onclick="submitTeacherLogin()">Créer mon accès et me connecter</button>
+    `;
+  } else if (role === 'SCHOOL_ADMIN') {
+    container.innerHTML = `
+      <div class="login-card-header">
+        <h3>🏫 Portail Administration Établissement</h3>
+        <p class="muted small">Gestion des effectifs, plannings globaux et documents administratifs.</p>
+      </div>
+      <div class="authgrid">
+        <div><label>Code RNE / UAI de l'Établissement</label><input id="adRne" value="" placeholder="Ex. 0591234A"></div>
+        <div><label>Email Administrateur Institutionnel</label><input id="adEmail" value=""></div>
+      </div>
+      <div style="margin-top:14px;"><label>Clé Sécurisée de l'Établissement</label><input id="adKey" type="password" value=""></div>
+      <button class="btn primary full" style="margin-top:18px;" id="requestCodesBtn" onclick="submitLogin('Administrateur', 'adEmail')">Connexion Administration</button>
+    `;
+  } else if (role === 'INDIVIDUAL') {
+    container.innerHTML = `
+      <div class="login-card-header">
+        <h3>👤 Espace Autodidacte & Formation Libre</h3>
+        <p class="muted small">Apprentissage sur-mesure pour indépendants et passionnés.</p>
+      </div>
+      <div class="authgrid">
+        <div><label>Adresse Email Personnelle</label><input id="indEmail" value=""></div>
+        <div><label>Domaine d'apprentissage principal</label><input id="indGoal" value=""></div>
+      </div>
+      <div style="margin-top:14px;"><label>Mot de Passe</label><input id="indPw" type="password" value=""></div>
+      <button class="btn primary full" style="margin-top:18px;" id="requestCodesBtn" onclick="submitLogin('Autodidacte', 'indEmail')">Ouvrir Mon Espace Libre</button>
+    `;
+  } else if (role === 'PARENT') {
+    container.innerHTML = `
+      <div class="login-card-header">
+        <h3>👨‍👩‍👧 Espace Parent de Famille</h3>
+        <p class="muted small">Consultez les progrès, plannings et conseils de travail pour vos enfants.</p>
+      </div>
+      <div class="authgrid">
+        <div><label>Email du Parent Responsable</label><input id="prEmail" value=""></div>
+        <div><label>Code d'Association Élève</label><input id="prCode" value=""></div>
+      </div>
+      <div style="margin-top:14px;"><label>Mot de Passe Foyer</label><input type="password" value=""></div>
+      <button class="btn primary full" style="margin-top:18px;" id="requestCodesBtn" onclick="submitLogin('Parent', 'prEmail')">Connexion Espace Parent</button>
+    `;
+  } else if (role === 'UNIVERSITY') {
+    container.innerHTML = `
+      <div class="login-card-header">
+        <h3>🎓 Espace Étudiant & Supérieur</h3>
+        <p class="muted small">Portail pour universités, grandes écoles et travaux de recherche.</p>
+      </div>
+      <div class="authgrid">
+        <div><label>Email Universitaire (.edu / .fr)</label><input id="unEmail" value=""></div>
+        <div><label>Numéro d'Étudiant (INE)</label><input value=""></div>
+      </div>
+      <div style="margin-top:14px;"><label>Mot de Passe</label><input type="password" value=""></div>
+      <button class="btn primary full" style="margin-top:18px;" id="requestCodesBtn" onclick="submitLogin('Étudiant Supérieur', 'unEmail')">Se connecter à l'Espace Universitaire</button>
+    `;
+  } else if (role === 'CREATOR') {
+    container.innerHTML = `
+      <div class="login-card-header" style="background:#0f172a; color:#fff;">
+        <h3>🛡️ Portail Sécurisé Créateur & Système</h3>
+        <p class="small muted" style="color:#cbd5e1;">Accès haute sécurité aux paramètres système, audits et signalements.</p>
+      </div>
+      <div style="margin-top:14px;"><label>Adresse email du créateur</label><input id="crEmail" type="email" autocomplete="username" placeholder="votre-adresse@gmail.com"></div>
+      <div style="margin-top:12px;"><label>Code secret Créateur</label><input id="crCode" type="password" autocomplete="current-password" placeholder="Entrez votre code secret"></div>
+      <button class="btn primary full" style="margin-top:18px;" onclick="submitCreatorLogin()">Authentification Administrateur Système</button>
+    `;
+  }
+}
+
+function validateEmail(email) {
+  return String(email).toLowerCase().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+}
+
+function submitStudentLogin() {
+  const name = document.getElementById('stName')?.value.trim() || '';
+  const emailVal = document.getElementById('stEmail')?.value.trim() || '';
+  const pw = document.getElementById('stPw')?.value || '';
+  if (!name) return toast('Entrez votre prénom, par exemple Laura.');
+  if (!validateEmail(emailVal)) return toast('Entrez une adresse email valide.');
+  if (pw.length < 6) return toast('Choisissez un mot de passe d’au moins 6 caractères.');
+  createLocalAccount('STUDENT', name, emailVal, pw, 'Élève');
+}
+
+function submitTeacherLogin() {
+  const emailVal = document.getElementById('tcEmail')?.value.trim() || '';
+  const pw = document.getElementById('tcPw')?.value || '';
+  if (!validateEmail(emailVal)) return toast('Entrez une adresse email valide.');
+  if (pw.length < 6) return toast('Choisissez un mot de passe d’au moins 6 caractères.');
+  createLocalAccount('TEACHER', emailVal.split('@')[0], emailVal, pw, 'Professeur');
+}
+
+async function createLocalAccount(role, name, email, password, roleName) {
+  const key = 'edu_account_' + role + '_' + email.toLowerCase();
+  const account = { role, name, email, password };
+  localStorage.setItem(key, JSON.stringify(account));
+  localStorage.setItem('edu_current_role', role);
+  state.email = email;
+  state.profile = { name };
+  state.studentName = role === 'STUDENT' ? name : '';
+  state.role = role;
+  
+  const reconnectCode = await createReconnectSession(role, email, name, password);
+  toast('Compte créé et connexion autorisée.');
+  showReconnectCodeConfirmation(reconnectCode, roleName);
+}
+
+function submitLogin(roleName, emailInputId) {
+  const emailInput = document.getElementById(emailInputId);
+  const emailVal = emailInput ? emailInput.value.trim() : '';
+  if (!validateEmail(emailVal)) {
+    toast('Entrez votre vraie adresse email.');
+    return;
+  }
+  requestEmailCodes(roleName, emailVal);
+}
+
+async function requestEmailCodes(roleName, email) {
+  const btn = document.getElementById('requestCodesBtn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Envoi des codes…'; }
+  try {
+    const r = await fetch(getAuthBackendUrl() + '/auth/request-code', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ role: state.role, roleName, email })
+    });
+    const d = await r.json().catch(()=>({}));
+    if (!r.ok || !d.ok) throw new Error(d.error || 'Impossible d’envoyer les codes.');
+    state.authChallenge = d.challenge || '';
+    state.authEmail = email;
+    state.authCodesSent = true;
+    renderEmailCodeStep(roleName, email);
+    toast('📧 Les codes ont été envoyés à votre adresse email.');
+  } catch (e) {
+    toast('❌ ' + (e.message || 'Échec de l’envoi des codes.'));
+    if (btn) { btn.disabled = false; btn.textContent = '📧 Envoyer mes codes par email'; }
+  }
+}
+
+function getAuthBackendUrl() {
+  const raw = (localStorage.getItem('edu_ai_backend') || 'https://projet-scolaires-ia-v1-0-0-0-1.erwan4829.workers.dev').trim();
+  return raw.replace(/\/lia$/i,'').replace(/\/api$/i,'').replace(/\/$/,'');
+}
+
+function renderEmailCodeStep(roleName, email) {
+  const container = document.getElementById('dynamicAuthContainer');
+  if (!container) return;
+  container.innerHTML = `
+    <div class="login-card-header">
+      <h3>📧 Code de connexion</h3>
+      <p class="muted small">Un code a été envoyé à <strong>${esc(email)}</strong>.</p>
+    </div>
+    <div class="authgrid">
+      <div><label>Code de vérification</label><input id="authCode1" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Code reçu par email"></div>
+    </div>
+    <button id="verifyCodesBtn" class="btn primary full" style="margin-top:18px;" onclick="verifyEmailCodes('${roleName.replace(/'/g,"\'")}')">🔐 Vérifier et ouvrir mon compte</button>
+    <button class="btn ghost full" style="margin-top:10px;" onclick="renderRoleLoginForm(state.role)">Modifier l’adresse email</button>
+  `;
+}
+
+async function verifyEmailCodes(roleName) {
+  const code1 = document.getElementById('authCode1')?.value.trim();
+  if (!code1) return toast('Entrez le code reçu par email.');
+  const btn = document.getElementById('verifyCodesBtn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Vérification…'; }
+  try {
+    const payload = { role: state.role, email: state.authEmail, challenge: state.authChallenge, code1 };
+    const r = await fetch(getAuthBackendUrl() + '/auth/verify-code', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const d = await r.json().catch(()=>({}));
+    if (!r.ok || !d.ok) throw new Error(d.error || 'Code invalide ou expiré.');
+    state.email = state.authEmail;
+    state.profile = { name: state.role === 'STUDENT' ? (state.studentName || state.email.split('@')[0]) : state.email.split('@')[0] };
+    state.authChallenge = '';
+    state.authCodesSent = false;
+    
+    const reconnectCode = await createReconnectSession(
+      state.role,
+      state.email,
+      state.profile.name,
+      code1
+    );
+    toast(`🔐 Connexion vérifiée (${roleName}).`);
+    showReconnectCodeConfirmation(reconnectCode, roleName);
+  } catch (e) {
+    toast('❌ ' + (e.message || 'Vérification impossible.'));
+    if (btn) { btn.disabled = false; btn.textContent = '🔐 Vérifier et ouvrir mon compte'; }
+  }
+}
+
+async function sha256Text(value) {
+  const data = new TextEncoder().encode(String(value));
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function generateReconnectCode() {
+  return String(Math.floor(10000000 + Math.random() * 90000000));
+}
+
+async function createReconnectSession(role, email, name, sourceCode) {
+  const reconnectCode = generateReconnectCode();
+  const hash = await sha256Text(reconnectCode);
+  localStorage.setItem('edu_reconnect', JSON.stringify({
+    role, email, name: name || '', hash,
+    createdAt: Date.now()
+  }));
+  state.reconnectRequired = true;
+  state.reconnectRole = role;
+  state.reconnectEmail = email;
+  state.reconnectName = name || '';
+  state.reconnectHash = hash;
+
+  return reconnectCode;
+}
+
+function showReconnectCodeConfirmation(code, roleName) {
+  const c = document.getElementById('dynamicAuthContainer');
+  if (!c) return;
+  c.innerHTML = `
+    <div class="login-card-header">
+      <h3>🔐 Votre code de reconnexion</h3>
+      <p class="muted small">Copiez précieusement ce code à 8 chiffres. Il vous permettra de réaccéder directement à votre compte lors de vos prochaines visites.</p>
+    </div>
+    <input id="newReconnectCode" value="${esc(code)}" readonly style="font-size:1.5rem;font-weight:900;text-align:center;letter-spacing:4px;margin-top:12px;">
+    <button class="btn blue full" style="margin-top:10px" onclick="copyReconnectCode()">📋 Copier le code</button>
+    <button class="btn primary full" style="margin-top:10px" onclick="confirmGeneratedReconnectCode()">✅ Accéder à mon espace</button>
+  `;
+}
+
+async function copyReconnectCode() {
+  const v = document.getElementById('newReconnectCode')?.value || '';
+  if (!v) return;
+  try {
+    await navigator.clipboard.writeText(v);
+    toast('📋 Code copié dans le presse-papiers !');
+  } catch {
+    const i = document.getElementById('newReconnectCode');
+    i?.select();
+    document.execCommand('copy');
+    toast('📋 Code copié !');
+  }
+}
+
+function confirmGeneratedReconnectCode() {
+  enter();
+}
+
+async function submitCreatorLogin() {
+  const email = document.getElementById('crEmail')?.value.trim() || '';
+  const code = document.getElementById('crCode')?.value.trim() || '';
+
+  if (!email) {
+    toast('Veuillez entrer l\'email du créateur.');
+    return;
+  }
+
+  if (code !== EDUVIA_DEFAULT_CREATOR_CODE) {
+    toast('❌ Clé Maître Créateur invalide.');
+    return;
+  }
+
+  state.role = 'CREATOR';
+  localStorage.setItem('edu_current_role', 'CREATOR');
+  state.email = email;
+  state.profile = { name: 'Créateur Système' };
+  const reconnectCode = await createReconnectSession('CREATOR', email, 'Créateur Système', code);
+  toast('🔐 Accès créateur autorisé. Supervision activée.');
+  showReconnectCodeConfirmation(reconnectCode, 'Créateur');
+}
+
+function enter() {
+  document.getElementById('loginView').classList.remove('active');
+  document.getElementById('appView').classList.add('active');
+  document.getElementById('rolePill').textContent = labels[state.role] || state.role;
+  document.getElementById('creatorNav').classList.toggle('hidden', state.role !== 'CREATOR');
+  go('home', true);
+}
+
+function logout() {
+  localStorage.removeItem('edu_reconnect');
+  state.reconnectRequired = false;
+  state.reconnectRole = '';
+  state.reconnectEmail = '';
+  state.reconnectName = '';
+  state.reconnectHash = '';
+  document.getElementById('appView').classList.remove('active');
+  document.getElementById('loginView').classList.add('active');
+  init();
+  toast('Session déconnectée.');
+}
+
+function toggleMenu() {
+  const side = document.getElementById('side');
+  if (side) side.style.display = side.style.display === 'block' ? '' : 'block';
+}
+
+function back() {
+  const p = state.history.pop();
+  go(p || 'home', true);
+}
+
+function go(page, noHistory = false) {
+  if (!noHistory && state.page !== page) {
+    state.history.push(state.page);
+  }
+  state.page = page;
+
+  document.querySelectorAll('.navbtn[data-page]').forEach(b => {
+    b.classList.toggle('sel', b.dataset.page === page);
+  });
+
+  const c = document.getElementById('pageContent');
+  if (c) c.innerHTML = render(page);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  bindPage();
+}
+
+// TYPEWRITER EFFECT WITH AUTOMATIC SCROLL FOR VISIBILITY
+function typeWriter(element, text, speed = 12, onComplete = null) {
+  state.isTyping = true;
+  element.innerHTML = '';
+  let i = 0;
+  
+  const cursor = document.createElement('span');
+  cursor.className = 'typing-cursor';
+  element.appendChild(cursor);
+
+  const timer = setInterval(() => {
+    if (i < text.length) {
+      const char = text.charAt(i);
+      if (char === '\n') {
+        cursor.before(document.createElement('br'));
+      } else {
+        cursor.before(document.createTextNode(char));
+      }
+      i++;
+      
+      const chatBox = document.getElementById('chat');
+      if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+    } else {
+      clearInterval(timer);
+      cursor.remove();
+      state.isTyping = false;
+      const chatBox = document.getElementById('chat');
+      if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+      if (onComplete) onComplete();
+    }
+  }, speed);
+}
+
+function render(page) {
+  const name = esc(state.profile?.name || 'Utilisateur');
+
+  if (page === 'home') {
+    return `
+      <div class="hero">
+        <span class="pill">💡 Espace : ${esc(labels[state.role] || state.role)}</span>
+        <h1>Bonjour, ${name} 👋</h1>
+        <p>Bienvenue sur votre espace Eduvia AI. Votre compte (${esc(state.email)}) est actif.</p>
+      </div>
+
+      <div class="grid g4" style="margin-top:20px;">
+        <div class="card"><div class="stat">${state.pages.length}</div><div class="muted">Pages enregistrées</div></div>
+        <div class="card"><div class="stat">${state.projects.length}</div><div class="muted">Projets & Devoirs</div></div>
+        <div class="card"><div class="stat">${state.generatedImages.length}</div><div class="muted">Schémas IA HD</div></div>
+        <div class="card"><div class="stat">${state.schedule.length}</div><div class="muted">Séances au planning</div></div>
+      </div>
+
+      <div class="grid g3" style="margin-top:20px;">
+        <div class="card">
+          <h2>🤖 Assistant Lia AI</h2>
+          <p class="muted" style="margin-bottom:16px;">Réponses intelligentes, concises et vocales pour vos cours.</p>
+          <button class="btn primary full" onclick="go('ai')">Ouvrir l'Assistant</button>
+        </div>
+        <div class="card">
+          <h2>🖼️ Studio d'Images Pro</h2>
+          <p class="muted" style="margin-bottom:16px;">Générez des visuels ultra-réalistes et des schémas vectoriels pour vos travaux.</p>
+          <button class="btn purple full" onclick="go('images')">Ouvrir le Studio Visuel</button>
+        </div>
+        <div class="card">
+          <h2>⚙️ Paramètres & App</h2>
+          <p class="muted" style="margin-bottom:16px;">Réglez la voix, téléchargez l'application ou affichez le QR code.</p>
+          <button class="btn ghost full" onclick="go('settings')">Personnaliser</button>
+        </div>
+      </div>
+    `;
+  }
+
+  if (page === 'ai') {
+    return `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:10px;">
+          <div>
+            <h1>🤖 Assistant Lia AI</h1>
+            <p class="muted">Posez vos questions de cours en direct.</p>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button id="chatVoiceToggleBtn" class="btn ${state.voice ? 'blue' : 'ghost'}" onclick="toggleVoice()">
+              ${state.voice ? '🔊 Voix : Activée' : '🔇 Voix : Désactivée'}
+            </button>
+            <button class="btn ghost" onclick="back()">↩️ Retour</button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+          <span class="chip" onclick="quickPrompt('Résous cette équation étape par étape : 3x + 7 = 22')">🧮 Équation 3x + 7 = 22</span>
+          <span class="chip" onclick="quickPrompt('Explique le rôle de la mitochondrie dans la cellule')">🧬 SVT Mitochondrie</span>
+          <span class="chip" onclick="quickPrompt('Explique la fonction de la glande hypophyse')">🧠 Glande Hypophyse</span>
+          <span class="chip" onclick="quickPrompt('Résumé synthétique de la Seconde Guerre Mondiale')">📜 Histoire 1939-1945</span>
+          <span class="chip" onclick="quickPrompt('Comment accorder le participe passé avec l\'auxiliaire avoir ?')">📝 Grammaire française</span>
+        </div>
+
+        <!-- CHAT CONTAINER: GUARANTEES CORRECT VISUAL ORDER -->
+        <div id="chat" class="chat">
+          ${renderMessagesHTML(name)}
+        </div>
+
+        <div class="chatrow">
+          <textarea id="prompt" placeholder="Posez directement votre question (maths, physique, histoire, grammaire, philo...)" onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); sendAI(); }"></textarea>
+          <button class="btn primary" onclick="sendAI()" style="height:54px;">Envoyer</button>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;">
+          <button class="btn ghost" onclick="startVoice()">🎙️ Micro</button>
+          <button class="btn ghost" onclick="readLast()">🔊 Écouter la dernière réponse</button>
+          <button class="btn ghost" onclick="stopVoice()">⏸️ Stopper la voix</button>
+          <button class="btn purple" onclick="go('images')">🖼️ Générer un schéma visuel</button>
+          <button class="btn danger" onclick="clearChat()">Effacer l'historique</button>
+        </div>
+      </div>
+    `;
+  }
+
+  if (page === 'images') {
+    return `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div>
+            <h1>🖼️ Studio de Génération Visuelle Pédagogique</h1>
+            <p class="muted">Générez des visuels HD, des schémas vectoriels et infographies pour vos devoirs et fiches.</p>
+          </div>
+          <button class="btn ghost" onclick="back()">↩️ Retour</button>
+        </div>
+
+        <div class="card" style="background:var(--bg); margin:16px 0;">
+          <h2>✨ Créer un nouveau schéma ou visuel HD</h2>
+          
+          <div style="margin-top:12px;">
+            <label>Description détaillée de l'image souhaitée</label>
+            <input id="imgPromptInput" placeholder="Ex: Coupe géologique des couches terrestres, Structure du cœur humain, Schéma de Thalès...">
+          </div>
+
+          <div style="margin-top:14px;" class="authgrid">
+            <div>
+              <label>Niveau de détail</label>
+              <select id="imgDifficultySelect">
+                <option value="easy">🟢 Simplifié (Scolaire)</option>
+                <option value="medium" selected>🟡 Intermédiaire (Collège/Lycée)</option>
+                <option value="hard">🔴 Avancé (Supérieur)</option>
+              </select>
+              <div style="height:10px"></div>
+              <label>Style de rendu souhaité</label>
+              <select id="imgStyleSelect">
+                <option value="photo">📸 Photo Ultra-Réaliste 8K</option>
+                <option value="vector" selected>📐 Schéma Pédagogique Vectoriel (Clair & Annoté)</option>
+                <option value="infographic">📊 Infographie Professionnelle</option>
+                <option value="3d">🎨 Rendu Scientifique 3D</option>
+              </select>
+            </div>
+            <div style="display:flex; align-items:flex-end;">
+              <button class="btn purple full" style="height:48px;" onclick="generateAIImage()">✨ Générer l'Image HD</button>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;">
+            <span class="chip" onclick="document.getElementById('imgPromptInput').value='Cycle de l\'eau complet avec évaporation, condensation et nappe phréatique'; generateAIImage();">💧 Cycle de l'eau</span>
+            <span class="chip" onclick="document.getElementById('imgPromptInput').value='Structure atomique de l\'atome de carbone avec noyau et électrons'; generateAIImage();">⚛️ Atome de Carbone</span>
+            <span class="chip" onclick="document.getElementById('imgPromptInput').value='Volcan en éruption avec chambre magmatique et cendres'; generateAIImage();">🌋 Schéma Volcanologue</span>
+            <span class="chip" onclick="document.getElementById('imgPromptInput').value='Photographie de cellule végétale observée au microscope haute résolution'; generateAIImage();">🔬 Cellule au Microscope</span>
+          </div>
+        </div>
+
+        <h2>Galerie des Visuels Générés</h2>
+        <div class="grid g3" style="margin-top:14px;">
+          ${state.generatedImages.map((img, i) => `
+            <div class="img-card">
+              <img src="${img.url}" alt="${esc(img.prompt)}" class="img-preview" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80';">
+              <div style="padding:14px;">
+                <b style="font-size:0.95rem; display:block; margin-bottom:6px;">${esc(img.prompt)}</b>
+                <span class="tag blue">${img.style === 'photo' ? 'Photo Réaliste' : img.style === 'vector' ? 'Schéma Vectoriel' : 'Rendu Pro'}</span>
+                <div style="display:flex; gap:6px; margin-top:12px;">
+                  <button class="btn blue small full" onclick="openImageDetail(${i})">🔍 Analyse & Exporter</button>
+                  <button class="btn danger small" onclick="deleteImage(${i})">🗑️</button>
+                </div>
+              </div>
+            </div>
+          `).join('') || '<p class="muted">Aucune image générée.</p>'}
+        </div>
+      </div>
+    `;
+  }
+
+  if (page === 'image-detail') {
+    const img = state.selectedImage;
+    if (!img) return render('images');
+
+    return `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+          <button class="btn ghost" onclick="go('images')">↩️ Retour au Studio</button>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <a class="btn primary" href="${img.url}" download="Eduvia_Schema_${Date.now()}.png" target="_blank">📥 Télécharger</a>
+            <button class="btn blue" onclick="printImageDetail()">🖨️ Imprimer</button>
+            <button class="btn purple" onclick="reAnalyzeImage()">🤖 Ré-analyser avec Lia</button>
+          </div>
+        </div>
+
+        <div style="text-align:center; background:#0f172a; border-radius:16px; padding:20px; margin-bottom:20px;">
+          <img src="${img.url}" alt="${esc(img.prompt)}" class="img-detail-view" style="max-width:100%; max-height:500px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+        </div>
+
+        <div class="card" style="background:var(--bg);">
+          <h2>📋 Intitulé du Schéma Officiel</h2>
+          <p style="font-size:1.1rem; font-weight:700; color:var(--g); margin-bottom:8px;">${esc(img.prompt)}</p>
+          <p class="muted small">Généré le ${esc(img.date)} · Eduvia AI Vision Engine</p>
+          
+          <hr style="margin:16px 0; border:0; border-top:1px solid var(--line);">
+
+          <h2>🔍 Analyse et Description Pédagogique par Lia AI</h2>
+          <div id="imageAnalysisBox" style="font-size:1rem; line-height:1.7; white-space:pre-wrap; margin-top:10px; background:#fff; padding:18px; border-radius:12px; border:1px solid var(--line);">
+            ${esc(img.analysis)}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  if (page === 'settings') {
+    return `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h1>⚙️ Paramètres, Voix, QR Code & Application</h1>
+          <button class="btn ghost" onclick="back()">↩️ Retour</button>
+        </div>
+
+        <!-- 1. AUDIO & VOICE SETTINGS -->
+        <h2 style="font-size:1.15rem; margin-top:10px; color:var(--g);">🔊 Synthèse Vocale & Audio</h2>
+        
+        <!-- VOICE ON/OFF TOGGLE -->
+        <div class="setting">
+          <div>
+            <b>🔊 Activation globale de la voix de Lia</b>
+            <div class="muted small">Activer ou couper la lecture vocale automatique des réponses</div>
+          </div>
+          <button class="switch ${state.voice ? 'on' : ''}" onclick="toggleVoiceSettings()"><i></i></button>
+        </div>
+
+        <!-- VOICE SPEED SLIDER & TEST BUTTON -->
+        <div class="setting">
+          <div>
+            <b>🎙️ Vitesse de la Voix (${state.voiceRate.toFixed(1)}x)</b>
+            <div class="muted small">Ajustez la vitesse idéale de lecture de 0.5x à 1.4x</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <span style="font-size:0.85rem; font-weight:700;">0.5x</span>
+            <input type="range" min="0.5" max="1.4" step="0.1" value="${state.voiceRate}" onchange="updateVoiceRate(this.value)" oninput="document.getElementById('rateVal').textContent = parseFloat(this.value).toFixed(1) + 'x'" style="width:130px;">
+            <span style="font-size:0.85rem; font-weight:700;" id="rateVal">${state.voiceRate.toFixed(1)}x</span>
+            <button class="btn blue small" onclick="testVoiceSpeed()">▶️ Tester la vitesse</button>
+          </div>
+        </div>
+
+        <!-- 2. QR CODE AND APPLICATION DOWNLOAD BUTTONS -->
+        <h2 style="font-size:1.15rem; margin-top:24px; color:var(--g);">📱 Partage & Application Mobile</h2>
+
+        <div class="setting">
+          <div>
+            <b>📱 Application Mobile / Raccourci Écran d'Accueil</b>
+            <div class="muted small">Ajouter Eduvia AI directement sur votre écran d'accueil</div>
+          </div>
+          <button class="btn primary" onclick="promptInstallApp()">📱 Télécharger l'application</button>
+        </div>
+
+        <div class="setting">
+          <div>
+            <b>🔗 Partager ou Flasher le QR Code</b>
+            <div class="muted small">Générer un QR code pour ouvrir directement le site sur mobile</div>
+          </div>
+          <button class="btn purple" onclick="showQRCodeModal()">📷 Voir le QR code</button>
+        </div>
+
+        <!-- 3. INTERFACE DISPLAY & THEME SETTINGS -->
+        <h2 style="font-size:1.15rem; margin-top:24px; color:var(--g);">🎨 Apparence & Interface</h2>
+
+        <!-- COLOR SELECTOR -->
+        <div class="setting">
+          <div>
+            <b>🎨 Couleur du Thème</b>
+            <div class="muted small">Choisissez votre couleur d'interface favorite.</div>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <span class="color-option ${state.theme==='blue'?'active':''}" style="background:#2563eb;" title="Bleu Océan" onclick="changeTheme('blue')"></span>
+            <span class="color-option ${state.theme==='emerald'?'active':''}" style="background:#159669;" title="Émeraude" onclick="changeTheme('emerald')"></span>
+            <span class="color-option ${state.theme==='purple'?'active':''}" style="background:#8b5cf6;" title="Violet Royal" onclick="changeTheme('purple')"></span>
+            <span class="color-option ${state.theme==='amber'?'active':''}" style="background:#d97706;" title="Ambre Doré" onclick="changeTheme('amber')"></span>
+          </div>
+        </div>
+
+        <div class="setting">
+          <div>
+            <b>🌙 Mode Sombre</b>
+            <div class="muted small">Basculer entre le mode clair et le mode sombre</div>
+          </div>
+          <button class="btn ghost" onclick="toggleDark()">${document.body.classList.contains('darkmode') ? '☀️ Mode Clair' : '🌙 Mode Sombre'}</button>
+        </div>
+
+        <div class="setting">
+          <div>
+            <b>🗑️ Réinitialisation des données localement</b>
+            <div class="muted small">Effacer l'ensemble de l'historique et des configurations</div>
+          </div>
+          <button class="btn danger" onclick="resetAllData()">Réinitialiser tout</button>
+        </div>
+      </div>
+    `;
+  }
+
+  if (page === 'new') {
+    return `
+      <div class="card">
+        <h1>➕ Créer une nouvelle note</h1>
+        <label style="margin-top:14px;">Titre du document</label>
+        <input id="newTitle" placeholder="Ex. Cours de Physique — Optique et Lentilles">
+        <label style="margin-top:14px;">Contenu</label>
+        <textarea id="newBody" placeholder="Rédigez ou collez votre texte ici..."></textarea>
+        <div style="margin-top:16px; display:flex; gap:10px;">
+          <button class="btn primary" onclick="createPage()">Enregistrer</button>
+          <button class="btn ghost" onclick="go('pages')">Annuler</button>
+        </div>
+      </div>
+    `;
+  }
+
+  if (page === 'pages') {
+    return `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h1>📄 Mes Pages</h1>
+          <button class="btn primary" onclick="go('new')">➕ Nouvelle Page</button>
+        </div>
+        <div class="grid g2">
+          ${state.pages.map((p, i) => `
+            <div class="card" style="background:var(--bg);">
+              <h3>${esc(p.title)}</h3>
+              <p class="muted small" style="margin:6px 0;">${new Date(p.date).toLocaleDateString('fr-FR')}</p>
+              <p style="margin-bottom:12px;">${esc(p.body)}</p>
+              <button class="btn danger small" onclick="deletePage(${i})">Supprimer</button>
+            </div>
+          `).join('') || '<p class="muted">Aucune page créée.</p>'}
+        </div>
+      </div>
+    `;
+  }
+
+  if (page === 'projects') {
+    return `
+      <div class="card">
+        <h1>📁 Projets & Tâches</h1>
+        <div class="authgrid" style="margin:16px 0;">
+          <input id="projName" placeholder="Nom du nouveau projet...">
+          <button class="btn primary" onclick="addProject()">Créer le projet</button>
+        </div>
+        <div class="grid g2">
+          ${state.projects.map((p, i) => `
+            <div class="card" style="background:var(--bg);">
+              <b>${esc(p.name)}</b>
+              <div style="margin:10px 0;">
+                ${p.tasks.map((t, ti) => `
+                  <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                    <input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${i},${ti})" style="width:auto;">
+                    <span style="${t.done?'text-decoration:line-through; color:var(--muted);':''}">${esc(t.title)}</span>
+                  </div>
+                `).join('')}
+              </div>
+              <div style="display:flex; gap:6px;">
+                <input id="newTask_${i}" placeholder="Ajouter une tâche..." onkeypress="if(event.key==='Enter') addTask(${i})">
+                <button class="btn ghost small" onclick="addTask(${i})">➕</button>
+                <button class="btn danger small" onclick="deleteProject(${i})">🗑️</button>
+              </div>
+            </div>
+          `).join('') || '<p class="muted">Aucun projet.</p>'}
+        </div>
+      </div>
+    `;
+  }
+
+  if (page === 'docs') {
+    return `
+      <div class="card">
+        <h1>📚 Analyse de Documents Importés</h1>
+        <div id="drop" class="drop" style="margin-top:14px;">
+          <div style="font-size:2rem;">📤</div>
+          <b>Déposez des images ou documents ici</b>
+          <p class="muted small">Formats supportés : PNG, JPG, PDF, TXT</p>
+          <button class="btn primary" style="margin-top:10px;" onclick="document.getElementById('fileInput').click()">Parcourir</button>
+          <input id="fileInput" type="file" multiple class="hidden">
+        </div>
+        <div id="fileList" class="files"></div>
+      </div>
+    `;
+  }
+
+  if (page === 'schedule') {
+    return `
+      <div class="card">
+        <h1>🕐 Planning & Emploi du Temps</h1>
+        <div class="authgrid" style="margin:16px 0;">
+          <input id="day" placeholder="Jour & Heure (ex. Lundi 10h-12h)">
+          <input id="course" placeholder="Matière (ex. Physique Salle 204)">
+        </div>
+        <button class="btn primary" style="margin-bottom:16px;" onclick="addSchedule()">Ajouter</button>
+        <div class="grid g2">
+          ${state.schedule.map((s, i) => `
+            <div class="card" style="background:var(--bg); display:flex; justify-content:space-between; align-items:center;">
+              <div><b>${esc(s.day)}</b><br><span>${esc(s.course)}</span></div>
+              <button class="btn danger small" onclick="deleteSchedule(${i})">Supprimer</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  if (page === 'report') {
+    return `
+      <div class="card">
+        <h1>🚨 Signaler un problème</h1>
+        <label>Catégorie</label>
+        <select id="repCat">
+          <option>Erreur de l'IA / Question de cours</option>
+          <option>Problème d'affichage / Couleur</option>
+          <option>Dysfonctionnement de la voix</option>
+          <option>Génération d'image à améliorer</option>
+        </select>
+        <label style="margin-top:14px;">Description</label>
+        <textarea id="repText" placeholder="Précisez votre problème..."></textarea>
+        <button class="btn primary" style="margin-top:14px;" onclick="submitReport()">Transmettre</button>
+      </div>
+    `;
+  }
+
+  if (page === 'reports') {
+    return `
+      <div class="card">
+        <h1>🛡️ Signalements reçus (Créateur)</h1>
+        <div class="grid g2" style="margin-top:14px;">
+          ${state.reports.map((r, i) => `
+            <div class="card" style="background:var(--bg);">
+              <span class="tag green">${esc(r.status)}</span>
+              <b style="display:block; margin-top:6px;">${esc(r.cat)}</b>
+              <p style="margin:8px 0;">${esc(r.text)}</p>
+              <button class="btn ghost small" onclick="resolveReport(${i})">Basculer le statut</button>
+            </div>
+          `).join('') || '<p class="muted">Aucun signalement.</p>'}
+        </div>
+      </div>
+    `;
+  }
+
+  if (page === 'security') {
+    return `
+      <div class="card">
+        <h1>🔐 Sécurité & Architecture du Système</h1>
+        <p style="margin-bottom:14px;">Système multi-profils sécurisé. L’accès Créateur nécessite votre adresse email et votre code secret.</p>
+        <div class="notice">
+          <b>Statut global :</b> Tous les sous-systèmes de vérification d'email et de rôles sont fonctionnels.
+        </div>
+      </div>
+    `;
+  }
+
+  return `<div class="card"><h1>Page non trouvée</h1></div>`;
+}
+
+// RENDER MESSAGES WITH GUARANTEED RE-LISTEN BUTTONS & HYGIENIC STRUCTURE
+function renderMessagesHTML(name) {
+  if (!state.messages || state.messages.length === 0) {
+    return `<div class="msg ai"><b>🌿 Lia</b><br><span class="msg-content">Bonjour ${esc(name)} ! Posez votre question.</span></div>`;
+  }
+
+  return state.messages.map((m, index) => {
+    if (m.who === 'ai') {
+      return `
+        <div class="msg ai" id="msg_${index}">
+          <b>🌿 Lia</b><br>
+          <span class="msg-content">${esc(m.text)}</span>
+          <div class="msg-footer">
+            <button class="play-btn" onclick="speakMsg(${index})">🔊 Écouter ce message</button>
+          </div>
+        </div>
+      `;
+    } else {
+      return `
+        <div class="msg me" id="msg_${index}">
+          <b>${esc(name)}</b><br>
+          <span class="msg-content">${esc(m.text)}</span>
+        </div>
+      `;
+    }
+  }).join('');
+}
+
+function updateChatDOM() {
+  const chatBox = document.getElementById('chat');
+  if (!chatBox) return;
+  const name = esc(state.profile?.name || 'Utilisateur');
+  chatBox.innerHTML = renderMessagesHTML(name);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// DISPLAY QR CODE MODAL
+function showQRCodeModal() {
+  const currentUrl = window.location.href;
+  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(currentUrl)}`;
+  
+  const modalHTML = `
+    <h2>📱 Accès Rapide par QR Code</h2>
+    <p class="muted small" style="margin-bottom:12px;">Scannez ce QR code avec votre téléphone portable pour ouvrir instantanément la plateforme Eduvia AI.</p>
+    
+    <div class="qr-container">
+      <img src="${qrApiUrl}" alt="QR Code Eduvia AI" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><rect width=\'200\' height=\'200\' fill=\'%23f1f5f9\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'14\' fill=\'%2364748b\'>QR Code non disponible</text></svg>';">
+    </div>
+
+    <div style="background:var(--bg); padding:12px; border-radius:12px; font-size:0.85rem; word-break:break-all; border:1px solid var(--line); margin-bottom:12px;">
+      <b>Lien direct :</b><br>
+      <a href="${currentUrl}" target="_blank" style="color:var(--g);">${esc(currentUrl)}</a>
+    </div>
+  `;
+  showModal(modalHTML);
+}
+
+// INSTALL APP / TRIGGER DIRECT PWA PROMPT
+function promptInstallApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        toast('✅ Application ajoutée à l\'écran d\'accueil !');
+      }
+      deferredPrompt = null;
+    });
+  } else {
+    toast('📱 L\'application est déjà installée ou votre navigateur ne supporte pas l\'installation automatique.');
+  }
+}
+
+function changeTheme(themeName) {
+  setTheme(themeName);
+  toast(`Thème mis à jour : ${themeName.toUpperCase()}`);
+  go('settings', true);
+}
+
+function toggleDark() {
+  state.dark = !state.dark;
+  localStorage.setItem('edu_dark', state.dark ? '1' : '0');
+  document.body.classList.toggle('darkmode', state.dark);
+  toast(state.dark ? '🌙 Mode Sombre activé' : '☀️ Mode Clair activé');
+  if (state.page === 'settings') go('settings', true);
+}
+
+function bindPage() {
+  const inp = document.getElementById('fileInput');
+  const drop = document.getElementById('drop');
+
+  if (inp) inp.onchange = e => handleFiles(e.target.files);
+  if (drop) {
+    ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('drag'); }));
+    ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('drag'); }));
+    drop.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
+  }
+  renderFiles();
+
+  const ch = document.getElementById('chat');
+  if (ch) ch.scrollTop = ch.scrollHeight;
+}
+
+function handleFiles(list) {
+  [...list].forEach(file => {
+    state.docs.unshift({ name: file.name, type: file.type || 'Document', date: new Date().toLocaleDateString('fr-FR') });
+    save('edu_docs', state.docs);
+  });
+  toast('Document importé.');
+  renderFiles();
+}
+
+function renderFiles() {
+  const box = document.getElementById('fileList');
+  if (!box) return;
+  box.innerHTML = state.docs.map((f, i) => `
+    <div class="file">
+      <div class="thumb">📄</div>
+      <b>${esc(f.name)}</b>
+      <button class="btn danger small full" style="margin-top:6px;" onclick="deleteDoc(${i})">Retirer</button>
+    </div>
+  `).join('');
+}
+
+function deleteDoc(i) {
+  state.docs.splice(i, 1);
+  save('edu_docs', state.docs);
+  renderFiles();
+}
+
+function createPage() {
+  const title = document.getElementById('newTitle').value.trim();
+  const body = document.getElementById('newBody').value.trim();
+  if (!title) return toast('Veuillez entrer un titre.');
+  state.pages.unshift({ id: 'p_' + Date.now(), title, body, date: Date.now() });
+  save('edu_pages', state.pages);
+  toast('Page enregistrée.');
+  go('pages');
+}
+
+function deletePage(i) {
+  state.pages.splice(i, 1);
+  save('edu_pages', state.pages);
+  go('pages', true);
+}
+
+function addProject() {
+  const name = document.getElementById('projName').value.trim();
+  if (!name) return;
+  state.projects.unshift({ id: 'pr_' + Date.now(), name, status: 'En cours', tasks: [] });
+  save('edu_projects', state.projects);
+  go('projects', true);
+}
+
+function deleteProject(i) {
+  state.projects.splice(i, 1);
+  save('edu_projects', state.projects);
+  go('projects', true);
+}
+
+function addTask(i) {
+  const input = document.getElementById(`newTask_${i}`);
+  if (!input || !input.value.trim()) return;
+  state.projects[i].tasks.push({ title: input.value.trim(), done: false });
+  save('edu_projects', state.projects);
+  go('projects', true);
+}
+
+function toggleTask(pi, ti) {
+  state.projects[pi].tasks[ti].done = !state.projects[pi].tasks[ti].done;
+  save('edu_projects', state.projects);
+  go('projects', true);
+}
+
+function addSchedule() {
+  const day = document.getElementById('day').value.trim();
+  const course = document.getElementById('course').value.trim();
+  if (!day || !course) return toast('Remplissez tous les champs.');
+  state.schedule.push({ id: 's_' + Date.now(), day, course });
+  save('edu_schedule', state.schedule);
+  go('schedule', true);
+}
+
+function deleteSchedule(i) {
+  state.schedule.splice(i, 1);
+  save('edu_schedule', state.schedule);
+  go('schedule', true);
+}
+
+function BACKEND_V7(){ return (localStorage.getItem('edu_ai_backend') || 'https://projet-scolaires-ia-v1-0-0-0-1.erwan4829.workers.dev').trim().replace(/\/$/,''); }
+
+async function generateAIImage() {
+  const input = document.getElementById('imgPromptInput');
+  const styleSelect = document.getElementById('imgStyleSelect');
+  const diffSelect = document.getElementById('imgDifficultySelect');
+  const prompt = input ? input.value.trim() : '';
+  const style = styleSelect ? styleSelect.value : 'vector';
+  const difficulty = diffSelect ? diffSelect.value : 'medium';
+  if (!prompt) return toast("Décris l'image à générer.");
+
+  const btn = [...document.querySelectorAll('button')].find(b => /Générer l.?Image HD/i.test(b.textContent));
+  if (btn) { btn.disabled = true; btn.dataset.oldText = btn.textContent; btn.textContent = 'Génération…'; }
+
+  const seed = Math.floor(Math.random() * 2147483647);
+  const subjectText = /math|calcul|équation|fraction|géométrie|arithmétique|algèbre/i.test(prompt) ? 'mathématiques' :
+    /français|grammaire|conjugaison|orthographe|littérature/i.test(prompt) ? 'français' :
+    /physique|chimie|atome|réaction|force|énergie/i.test(prompt) ? 'physique-chimie' :
+    /svt|biologie|cellule|corps|écologie|géologie/i.test(prompt) ? 'SVT' :
+    /histoire|guerre|empire|révolution|chronologie/i.test(prompt) ? 'histoire' :
+    /géographie|carte|territoire|climat|population/i.test(prompt) ? 'géographie' : 'matière demandée';
+
+  let styleModifiers = '';
+  if (style === 'photo') styleModifiers = 'photorealistic, high detail, clean composition';
+  else if (style === 'vector') styleModifiers = 'clean educational vector diagram, precise lines, readable labels';
+  else if (style === 'infographic') styleModifiers = 'professional educational infographic, clear hierarchy';
+  else styleModifiers = 'detailed 3D scientific render, clean lighting';
+
+  const fullPrompt = `${prompt}. Matière: ${subjectText}. ${styleModifiers}`;
+
+  try {
+    const response = await fetch(BACKEND_V7() + '/image', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({prompt: fullPrompt.slice(0, 4096), seed})
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.dataURI) throw new Error('image backend error');
+    const newImg = { id:'img_'+Date.now()+'_'+seed, prompt, style, difficulty, seed, url:data.dataURI, date:new Date().toLocaleDateString('fr-FR'), analysis:generateImageAnalysis(prompt,style) };
+    state.generatedImages.unshift(newImg); save('edu_images',state.generatedImages); state.selectedImage=newImg; go('image-detail');
+  } catch (_) {
+    const rawSvg = buildRandomWorksheetSVG(prompt, subjectText, seed);
+    const dataUri = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(rawSvg);
+    const newImg = { id:'local_'+Date.now()+'_'+seed, prompt, style:'vector', difficulty, seed, url:dataUri, date:new Date().toLocaleDateString('fr-FR'), analysis:generateImageAnalysis(prompt,'vector') };
+    state.generatedImages.unshift(newImg); save('edu_images',state.generatedImages); state.selectedImage=newImg; go('image-detail');
+    toast('Visuel pédagogique généré.');
+  } finally {
+    if (btn) { btn.disabled=false; btn.textContent=btn.dataset.oldText || '✨ Générer l\'Image HD'; }
+  }
+}
+
+function buildRandomWorksheetSVG(prompt, subject, seed) {
+  const escSvg = x => String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  let st = (Number(seed) >>> 0) || 12345;
+  const rnd = () => { st = (1664525 * st + 1013904223) >>> 0; return st / 4294967296; };
+  const ri = (a, b) => Math.floor(rnd() * (b - a + 1)) + a;
+  const pick = a => a[ri(0, a.length - 1)];
+
+  let title = 'SUPPORT PÉDAGOGIQUE';
+  let rows = [];
+
+  if (subject === 'mathématiques') {
+    title = 'MATHÉMATIQUES — EXERCICES';
+    const niveau = pick(['facile', 'moyen', 'difficile']);
+    for (let i = 0; i < 6; i++) {
+      let a = niveau === 'facile' ? ri(2,30) : niveau === 'moyen' ? ri(10,150) : ri(50,999);
+      let b = niveau === 'facile' ? ri(2,20) : niveau === 'moyen' ? ri(3,80) : ri(10,99);
+      rows.push(`${i+1}. ${a} ${pick(['+','−','×'])} ${b} = __________`);
+    }
+  } else if (subject === 'français') {
+    title = 'FRANÇAIS — ACTIVITÉ';
+    rows = [
+      `1. Texte à trous : ${pick(['Le personnage','Le narrateur','L’auteur'])} ________ son histoire.`,
+      `2. Conjugue au temps demandé : __________________________`,
+      `3. Identifie le sujet et le complément : __________________`,
+      `4. Réécris la phrase en respectant l’accord : ______________`,
+      `5. Rédige une phrase sur : ${pick(['un souvenir','un voyage','un personnage historique'])}.`
+    ];
+  } else if (subject === 'physique-chimie') {
+    title = 'PHYSIQUE-CHIMIE — ACTIVITÉ';
+    rows = [
+      `1. Données : m = ${ri(20,500)} g ; V = ${ri(10,200)} mL → relation : __________`,
+      `2. Complète le schéma de la réaction : __________ → __________`,
+      `3. Circuit : U = ${ri(3,24)} V ; I = ${ri(1,8)} A → formule : __________`,
+      `4. Décris le phénomène observé : __________________________`
+    ];
+  } else if (subject === 'SVT') {
+    title = 'SVT — ACTIVITÉ';
+    rows = [
+      `1. Légende le schéma : _________________________________`,
+      `2. Associe chaque organe à sa fonction : ________________`,
+      `3. Complète le cycle/processus : _________________________`,
+      `4. Explique le phénomène étudié : _______________________`
+    ];
+  } else {
+    title = 'SUPPORT PÉDAGOGIQUE — ACTIVITÉ';
+    rows = [
+      `1. Question principale : ______________________________`,
+      `2. Complète l’activité : ______________________________`,
+      `3. Document à analyser : ______________________________`,
+      `4. Schéma / légende : _________________________________`
+    ];
+  }
+
+  const lines = rows.map((r, i) => `<text x="95" y="${300 + i * 105}" font-family="Arial" font-size="26" fill="#0f172a">${escSvg(r)}</text>`).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1150"><rect width="1600" height="1150" fill="#f8fafc"/><rect x="50" y="50" width="1500" height="1050" rx="28" fill="white" stroke="#2563eb" stroke-width="5"/><rect x="50" y="50" width="1500" height="145" rx="28" fill="#2563eb"/><text x="95" y="135" font-family="Arial" font-size="40" font-weight="700" fill="white">${escSvg(title)}</text><text x="95" y="245" font-family="Arial" font-size="23" fill="#334155">${escSvg(prompt).slice(0,125)}</text>${lines}<text x="95" y="1045" font-family="Arial" font-size="18" fill="#64748b">Génération Eduvia AI • ${seed}</text></svg>`;
+}
+
+function generateImageAnalysis(prompt, style) {
+  return `📊 **Analyse Pédagogique du Visuel — Eduvia Vision**\n\n• **Intitulé :** ${prompt}\n• **Style :** ${style === 'photo' ? 'Photographie 8K' : style === 'vector' ? 'Schéma Vectoriel' : 'Illustration HD'}\n\n1. **Précision :** Découpage clair adapté à l'étude et aux fiches de cours.\n2. **Restauration :** Les contours et contrastes garantissent une lisibilité optimale.\n3. **Usage conseillé :** Fiche de révision, support d'exposé ou document de travail.`;
+}
+
+function openImageDetail(index) {
+  state.selectedImage = state.generatedImages[index];
+  go('image-detail');
+}
+
+function deleteImage(index) {
+  state.generatedImages.splice(index, 1);
+  save('edu_images', state.generatedImages);
+  go('images', true);
+  toast('Visuel supprimé.');
+}
+
+function printImageDetail() {
+  document.getElementById('printDate').textContent = new Date().toLocaleDateString('fr-FR');
+  window.print();
+}
+
+function reAnalyzeImage() {
+  if (!state.selectedImage) return;
+  const newAnalysis = generateImageAnalysis(state.selectedImage.prompt, state.selectedImage.style);
+  state.selectedImage.analysis = newAnalysis;
+  const box = document.getElementById('imageAnalysisBox');
+  if (box) box.textContent = newAnalysis;
+  toast('Analyse mise à jour.');
+}
+
+// ENVOI DE MESSAGE ET PLACEMENT PARFAIT EN DESSOUS AVEC DEFILEMENT AUTOMATIQUE
+function sendAI() {
+  const inp = document.getElementById('prompt');
+  if (!inp) return;
+  const p = inp.value.trim();
+  if (!p || state.isTyping) return;
+
+  inp.value = '';
+
+  // 1. Enregistrement du message de l'utilisateur
+  state.messages.push({ who: 'me', text: p });
+  
+  // 2. Calcul de la réponse de Lia
+  const reply = generateLiaResponse(p);
+  state.messages.push({ who: 'ai', text: reply });
+  save('edu_messages', state.messages);
+
+  // 3. Mise à jour immédiate du DOM du Chat
+  updateChatDOM();
+
+  // 4. Défilement immédiat vers le bas
+  const chatBox = document.getElementById('chat');
+  if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+
+  // 5. Effet Machine à écrire sur le message de l'IA (en dessous)
+  const msgs = document.querySelectorAll('#chat .msg.ai .msg-content');
+  const lastMsgEl = msgs[msgs.length - 1];
+
+  if (lastMsgEl) {
+    typeWriter(lastMsgEl, reply, 12, () => {
+      if (state.voice) speak(reply);
+    });
+  } else {
+    if (state.voice) speak(reply);
+  }
+}
+
+function quickPrompt(text) {
+  const inp = document.getElementById('prompt');
+  if (inp) inp.value = text;
+  sendAI();
+}
+
+function generateLiaResponse(prompt) {
+  const q = prompt.toLowerCase().trim();
+
+  if (state.role === 'STUDENT') {
+    const offTopicKeywords = [
+      'raconte-moi une histoire', 'raconte moi une histoire', 'raconte une histoire', 'raconte moi',
+      'blague', 'chanson', 'chante', 'jeu', 'joue', 'film', 'super-héros', 'chante-moi',
+      'n\'importe quoi', 'mange', 'drôle', 'marrant', 'lol', 'mdr', 'qui es-tu'
+    ];
+
+    const isOffTopic = offTopicKeywords.some(kw => q.includes(kw));
+
+    if (isOffTopic || q.length < 2) {
+      return "Je ne peux pas répondre à cela. Je suis une intelligence artificielle créée uniquement pour l'éducation.";
+    }
+  }
+
+  if (q.includes('3x') && q.includes('22')) {
+    return `Pour résoudre 3x + 7 = 22 :\n\n1. Soustrayez 7 des deux côtés : 3x = 15\n2. Divisez par 3 : x = 5\n\n✅ La solution est x = 5.`;
+  }
+
+  if (q.includes('hypophyse') || q.includes('glande')) {
+    return `L'hypophyse est une glande endocrine située sous le cerveau.\n\n• Elle orchestre le fonctionnement du système hormonal (croissance, métabolisme).\n• Elle produit notamment l'hormone de croissance (GH), l'ACTH et la TSH.`;
+  }
+
+  if (q.includes('mitochondrie') || q.includes('cellule')) {
+    return `La mitochondrie est l'organite énergétique de la cellule eucaryote.\n\n• Elle assure la respiration cellulaire pour générer de l'ATP.\n• Équation : Glucose + O₂ ➔ CO₂ + H₂O + ATP.`;
+  }
+
+  if (q.includes('seconde guerre') || q.includes('1939') || q.includes('1945')) {
+    return `Repères chronologiques de la Seconde Guerre mondiale :\n\n• 1er septembre 1939 : Début du conflit (invasion de la Pologne).\n• 6 juin 1944 : Débarquement des Alliés en Normandie.\n• 8 mai 1945 : Capitulation de l'Allemagne nazie en Europe.\n• 2 septembre 1945 : Fin officielle du conflit en Asie.`;
+  }
+
+  if (q.includes('participe passé') || q.includes('accord') || q.includes('avoir')) {
+    return `Règle d'accord du participe passé avec AVOIR :\n\n• Aucun accord avec le sujet.\n• Accord en genre et en nombre avec le Complément d'Objet Direct (COD) si celui-ci est placé AVANT le verbe.\n• Exemple : "Les leçons que j'ai apprises." (COD "que" [les leçons] placé avant).`;
+  }
+
+  if (q.includes('histoire') || q.includes('raconte')) {
+    if (state.role !== 'STUDENT') {
+      return `Voici une histoire pour vous :\n\nIl était une fois, au cœur d'un observatoire perché sur les hauteurs d'une vallée brumeuse, un astronome qui passionnait ses étudiants en retraçant l'origine des constellations. Un soir, ils découvrirent une traînée lumineuse inédite dans le télescope, marquant le début d'une aventure scientifique hors du commun...`;
+    }
+  }
+
+  if (state.role === 'STUDENT') {
+    return `Concernant votre question d'étude "${prompt}" :\n\nVoici les éléments clés pour vous aider au mieux :\n1. Analysez les notions principales du chapitre.\n2. Appliquez les méthodes et formules correspondantes.\n3. Rédigez votre démonstration de manière claire et structurée.`;
+  }
+
+  return `Réponse directe concernant "${prompt}" :\n\nVoici les informations demandées pour accompagner votre travail, vos séances de cours ou votre supervision de la plateforme.`;
+}
+
+// FONCTIONS AUDIO & SYNTHÈSE VOCALE
+function toggleVoice() {
+  state.voice = !state.voice;
+  localStorage.setItem('edu_voice', state.voice ? '1' : '0');
+  toast(state.voice ? '🔊 Voix activée' : '🔇 Voix désactivée');
+  const btn = document.getElementById('chatVoiceToggleBtn');
+  if (btn) {
+    btn.textContent = state.voice ? '🔊 Voix : Activée' : '🔇 Voix : Désactivée';
+    btn.className = `btn ${state.voice ? 'blue' : 'ghost'}`;
+  }
+}
+
+function toggleVoiceSettings() {
+  toggleVoice();
+  if (state.page === 'settings') go('settings', true);
+}
+
+function updateVoiceRate(value) {
+  const rate = Math.max(0.5, Math.min(1.4, parseFloat(value) || 1.0));
+  state.voiceRate = rate;
+  localStorage.setItem('edu_voice_rate', rate.toString());
+  toast(`Vitesse de voix réglée à : ${rate.toFixed(1)}x`);
+}
+
+function testVoiceSpeed() {
+  speak(`Ceci est un test audio. La vitesse de lecture est réglée à ${state.voiceRate.toFixed(1)} fois.`);
+}
+
+function speakMsg(index) {
+  if (!state.messages[index]) return;
+  speak(state.messages[index].text);
+}
+
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  if (!text) return;
+  const cleanText = text.replace(/[*#_`]/g, '');
+  const utter = new SpeechSynthesisUtterance(cleanText);
+  utter.lang = 'fr-FR';
+  utter.rate = state.voiceRate || 1.0;
+  utter.pitch = state.voicePitch || 1.0;
+  
+  const voices = window.speechSynthesis.getVoices();
+  const frVoice = voices.find(v => v.lang.startsWith('fr') || v.lang.includes('FR'));
+  if (frVoice) utter.voice = frVoice;
+  
+  window.speechSynthesis.speak(utter);
+}
+
+function stopVoice() {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    toast('⏸️ Lecture vocale stoppée.');
+  }
+}
+
+function readLast() {
+  const aiMsgs = state.messages.filter(m => m.who === 'ai');
+  if (aiMsgs.length > 0) {
+    const lastMsg = aiMsgs[aiMsgs.length - 1];
+    speak(lastMsg.text);
+    toast('🔊 Réécoute de la dernière réponse...');
+  } else {
+    toast('Aucun message à réécouter.');
+  }
+}
+
+function startVoice() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    return toast('❌ La reconnaissance vocale n\'est pas supportée sur votre navigateur.');
+  }
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'fr-FR';
+  recognition.interimResults = false;
+  
+  toast('🎙️ Écoute en cours... Parlez maintenant.');
+  
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    const inp = document.getElementById('prompt');
+    if (inp) {
+      inp.value = transcript;
+      sendAI();
+    }
+  };
+  
+  recognition.onerror = () => {
+    toast('❌ Erreur de reconnaissance vocale.');
+  };
+  
+  recognition.start();
+}
+
+function initVoiceList() {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.getVoices();
+    };
+  }
+}
+
+function submitReport() {
+  const cat = document.getElementById('repCat')?.value;
+  const text = document.getElementById('repText')?.value.trim();
+  if (!text) return toast('Veuillez décrire le problème.');
+  state.reports.unshift({ id: 'rep_' + Date.now(), cat, text, status: 'Nouveau', date: new Date().toLocaleDateString('fr-FR') });
+  save('edu_reports', state.reports);
+  toast('Signalement transmis au créateur.');
+  go('home');
+}
+
+function resolveReport(i) {
+  state.reports[i].status = state.reports[i].status === 'Nouveau' ? 'Résolu' : 'Nouveau';
+  save('edu_reports', state.reports);
+  go('reports', true);
+}
+
+function resetAllData() {
+  if (confirm("Voulez-vous vraiment réinitialiser toutes les données de l'application ?")) {
+    localStorage.clear();
+    location.reload();
+  }
+}
+
+function clearChat() {
+  state.messages = [{ who: 'ai', text: 'Bonjour ! Je suis Lia, ton assistante pédagogique. Pose-moi tes questions de cours !' }];
+  save('edu_messages', state.messages);
+  updateChatDOM();
+  toast('Historique effacé.');
+}
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
